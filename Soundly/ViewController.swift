@@ -20,21 +20,8 @@ class ViewController: UIViewController {
         
         setupTableView()
         setupSearchBar()
-        
-        let urlString = "https://itunes.apple.com/search?term=jack+johnson&limit=25"
-
-        networkService.request(urlString: urlString) { [weak self] result in
-            switch result {
-                
-            case .success(let searchResponse):
-                self?.searchResponse = searchResponse
-                self?.table.reloadData()
-            case .failure(let error):
-                print("Error:", error)
-            }
-        }
+     
     }
-    
     
     private func setupSearchBar() {
         navigationItem.searchController = searchController
@@ -67,5 +54,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 extension ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
+        
+        let urlString = "https://itunes.apple.com/search?term=\(searchText)&limit=25"
+
+        networkService.request(urlString: urlString) { [weak self] result in
+            switch result {
+                
+            case .success(let searchResponse):
+                self?.searchResponse = searchResponse
+                self?.table.reloadData()
+            case .failure(let error):
+                print("Error:", error)
+            }
+        }
     }
 }
