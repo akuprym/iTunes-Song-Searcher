@@ -11,7 +11,8 @@ class ViewController: UIViewController {
     
     let networkService = NetworkService()
     var searchResponse: SearchResponse? = nil
-
+    var timer: Timer?
+    
     @IBOutlet weak var table: UITableView!
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -55,17 +56,20 @@ extension ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
         
-        let urlString = "https://itunes.apple.com/search?term=\(searchText)&limit=25"
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+            let urlString = "https://itunes.apple.com/search?term=\(searchText)&limit=5"
 
-        networkService.request(urlString: urlString) { [weak self] result in
-            switch result {
-                
-            case .success(let searchResponse):
-                self?.searchResponse = searchResponse
-                self?.table.reloadData()
-            case .failure(let error):
-                print("Error:", error)
+            self.networkService.request(urlString: urlString) { [weak self] result in
+                switch result {
+                    
+                case .success(let searchResponse):
+                    self?.searchResponse = searchResponse
+                    self?.table.reloadData()
+                case .failure(let error):
+                    print("Error:", error)
+                }
             }
-        }
+        })
     }
 }
