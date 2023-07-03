@@ -8,6 +8,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let networkService = NetworkService()
+    var searchResponse: SearchResponse? = nil
 
     @IBOutlet weak var table: UITableView!
     let searchController = UISearchController(searchResultsController: nil)
@@ -19,47 +22,19 @@ class ViewController: UIViewController {
         setupSearchBar()
         
         let urlString = "https://itunes.apple.com/search?term=jack+johnson&limit=25"
-//        request(urlString: urlString) { searchResponse, error in
-//            searchResponse?.results.map({ track in
-//                print(track.trackName)
-//            })
-//        }
-        request(urlString: urlString) { result in
+
+        networkService.request(urlString: urlString) { [weak self] result in
             switch result {
                 
             case .success(let searchResponse):
-                searchResponse.results.map { track in
-                    print("Track name:", track.trackName)
-                }
+                self?.searchResponse = searchResponse
+                self?.table.reloadData()
             case .failure(let error):
                 print("Error:", error)
             }
         }
     }
     
-    func request(urlString: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        guard let url = URL(string: urlString) else {return}
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("Some error")
-                    completion(.failure(error))
-                    return
-                } else {
-                    guard let data = data else { return }
-//                    let someString = String(data: data, encoding: .utf8)
-//                    print(someString ?? "no data")
-                    do {
-                        let tracks = try JSONDecoder().decode(SearchResponse.self, from: data)
-                        completion(.success(tracks))
-                    } catch let jsonError {
-                        print("Failed to decode JSON", jsonError)
-                        completion(.failure(jsonError))
-                    }
-                }
-            }
-        }.resume()
-    }
     
     private func setupSearchBar() {
         navigationItem.searchController = searchController
@@ -78,12 +53,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return searchResponse?.resultCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "1"
+        let track = searchResponse?.results[indexPath.row]
+        cell.textLabel?.text = track?.trackName
         return cell
     }
 }
