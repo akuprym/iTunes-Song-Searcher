@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		843D61682A4B837F00BFC7A7 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843D61672A4B837F00BFC7A7 /* SearchResponse.swift */; };
+		843DDB7F2A5375E400F18DCE /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DDB7E2A5375E400F18DCE /* NetworkDataFetcher.swift */; };
 		8453767D2A534FA00093B564 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453767C2A534FA00093B564 /* NetworkService.swift */; };
 		846A71242A3A5DC00046DB58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A71232A3A5DC00046DB58 /* AppDelegate.swift */; };
 		846A71262A3A5DC00046DB58 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A71252A3A5DC00046DB58 /* SceneDelegate.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		843D61672A4B837F00BFC7A7 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		843DDB7E2A5375E400F18DCE /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 		8453767C2A534FA00093B564 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		846A71202A3A5DC00046DB58 /* Soundly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soundly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846A71232A3A5DC00046DB58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				8453767C2A534FA00093B564 /* NetworkService.swift */,
+				843DDB7E2A5375E400F18DCE /* NetworkDataFetcher.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843DDB7F2A5375E400F18DCE /* NetworkDataFetcher.swift in Sources */,
 				8453767D2A534FA00093B564 /* NetworkService.swift in Sources */,
 				843D61682A4B837F00BFC7A7 /* SearchResponse.swift in Sources */,
 				846A71282A3A5DC00046DB58 /* ViewController.swift in Sources */,
