@@ -19,20 +19,31 @@ class ViewController: UIViewController {
         setupSearchBar()
         
         let urlString = "https://itunes.apple.com/search?term=jack+johnson&limit=25"
-        request(urlString: urlString) { searchResponse, error in
-            searchResponse?.results.map({ (track) in
-                print(track.trackName)
-            })
+//        request(urlString: urlString) { searchResponse, error in
+//            searchResponse?.results.map({ track in
+//                print(track.trackName)
+//            })
+//        }
+        request(urlString: urlString) { result in
+            switch result {
+                
+            case .success(let searchResponse):
+                searchResponse.results.map { track in
+                    print("Track name:", track.trackName)
+                }
+            case .failure(let error):
+                print("Error:", error)
+            }
         }
     }
     
-    func request(urlString: String, completion: @escaping (SearchResponse?, Error?) -> Void) {
+    func request(urlString: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         guard let url = URL(string: urlString) else {return}
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("Error parsing JSON")
-                    completion(nil, error)
+                    print("Some error")
+                    completion(.failure(error))
                     return
                 } else {
                     guard let data = data else { return }
@@ -40,10 +51,10 @@ class ViewController: UIViewController {
 //                    print(someString ?? "no data")
                     do {
                         let tracks = try JSONDecoder().decode(SearchResponse.self, from: data)
-                        completion(tracks, nil)
+                        completion(.success(tracks))
                     } catch let jsonError {
                         print("Failed to decode JSON", jsonError)
-                        completion(nil, jsonError)
+                        completion(.failure(jsonError))
                     }
                 }
             }
