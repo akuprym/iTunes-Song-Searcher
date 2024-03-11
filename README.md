@@ -1,4 +1,4 @@
-The app helps to find song names using iTunes API. 
+The app helps find song names using iTunes API. 
 
 The user can start typing an artist/song name in the Search Bar. 
 
